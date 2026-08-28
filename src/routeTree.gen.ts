@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as LiveRouteImport } from './routes/live'
 import { Route as ProgramsRouteImport } from './routes/programs'
+import { Route as ServicesRouteImport } from './routes/services'
 import { Route as VideosRouteImport } from './routes/videos'
 
 const IndexRoute = IndexRouteImport.update({
@@ -35,6 +36,11 @@ const ProgramsRoute = ProgramsRouteImport.update({
   path: '/programs',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ServicesRoute = ServicesRouteImport.update({
+  id: '/services',
+  path: '/services',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const VideosRoute = VideosRouteImport.update({
   id: '/videos',
   path: '/videos',
@@ -46,6 +52,7 @@ export interface FileRoutesByFullPath {
   '/gallery': typeof GalleryRoute
   '/live': typeof LiveRoute
   '/programs': typeof ProgramsRoute
+  '/services': typeof ServicesRoute
   '/videos': typeof VideosRoute
 }
 export interface FileRoutesByTo {
@@ -53,6 +60,7 @@ export interface FileRoutesByTo {
   '/gallery': typeof GalleryRoute
   '/live': typeof LiveRoute
   '/programs': typeof ProgramsRoute
+  '/services': typeof ServicesRoute
   '/videos': typeof VideosRoute
 }
 export interface FileRoutesById {
@@ -61,14 +69,22 @@ export interface FileRoutesById {
   '/gallery': typeof GalleryRoute
   '/live': typeof LiveRoute
   '/programs': typeof ProgramsRoute
+  '/services': typeof ServicesRoute
   '/videos': typeof VideosRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/gallery' | '/live' | '/programs' | '/videos'
+  fullPaths: '/' | '/gallery' | '/live' | '/programs' | '/services' | '/videos'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/gallery' | '/live' | '/programs' | '/videos'
-  id: '__root__' | '/' | '/gallery' | '/live' | '/programs' | '/videos'
+  to: '/' | '/gallery' | '/live' | '/programs' | '/services' | '/videos'
+  id:
+    | '__root__'
+    | '/'
+    | '/gallery'
+    | '/live'
+    | '/programs'
+    | '/services'
+    | '/videos'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -76,6 +92,7 @@ export interface RootRouteChildren {
   GalleryRoute: typeof GalleryRoute
   LiveRoute: typeof LiveRoute
   ProgramsRoute: typeof ProgramsRoute
+  ServicesRoute: typeof ServicesRoute
   VideosRoute: typeof VideosRoute
 }
 
@@ -109,6 +126,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProgramsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/services': {
+      id: '/services'
+      path: '/services'
+      fullPath: '/services'
+      preLoaderRoute: typeof ServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/videos': {
       id: '/videos'
       path: '/videos'
@@ -124,6 +148,7 @@ const rootRouteChildren: RootRouteChildren = {
   GalleryRoute: GalleryRoute,
   LiveRoute: LiveRoute,
   ProgramsRoute: ProgramsRoute,
+  ServicesRoute: ServicesRoute,
   VideosRoute: VideosRoute,
 }
 export const routeTree = rootRouteImport
