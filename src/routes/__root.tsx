@@ -11,6 +11,9 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { LanguageProvider } from "../i18n/LanguageProvider";
+import { ThemeProvider } from "../theme/ThemeProvider";
+import { Toaster } from "../components/ui/sonner";
 
 function NotFoundComponent() {
   return (
@@ -77,19 +80,29 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "DPS DARSHAN — भक्ति, सत्संग और लाइव कथा प्रसारण" },
+      {
+        name: "description",
+        content:
+          "DPS DARSHAN — श्रीराम कथा, श्रीमद्भागवत कथा, भजन एवं धार्मिक आयोजनों का YouTube Live, Facebook Live एवं HD रिकॉर्डिंग। कथा बुकिंग: 9755864233",
+      },
+      { name: "author", content: "DPS DARSHAN" },
+      {
+        name: "keywords",
+        content:
+          "DPS Darshan, DPS Darshan Live, DPS Darshan Bhajan, Ram Katha Live, Bhagwat Katha Live, Bhajan Live, Katha Live, Religious Live, Religious Event Recording",
+      },
+      { property: "og:site_name", content: "DPS DARSHAN" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
     ],
     links: [
+      { rel: "stylesheet", href: appCss },
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: appCss,
+        href: "https://fonts.googleapis.com/css2?family=Yatra+One&family=Mukta:wght@300;400;500;600;700&display=swap",
       },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
     ],
@@ -102,7 +115,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="hi">
       <head>
         <HeadContent />
       </head>
@@ -119,8 +132,13 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <ThemeProvider>
+        <LanguageProvider>
+          {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+          <Outlet />
+          <Toaster position="top-center" richColors />
+        </LanguageProvider>
+      </ThemeProvider>
     </QueryClientProvider>
   );
 }
