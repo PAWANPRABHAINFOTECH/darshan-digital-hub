@@ -16,6 +16,7 @@ import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as LiveRouteImport } from './routes/live'
 import { Route as ProgramsRouteImport } from './routes/programs'
 import { Route as ServicesRouteImport } from './routes/services'
+import { Route as StatusRouteImport } from './routes/status'
 import { Route as SupportRouteImport } from './routes/support'
 import { Route as VideosRouteImport } from './routes/videos'
 
@@ -54,6 +55,11 @@ const ServicesRoute = ServicesRouteImport.update({
   path: '/services',
   getParentRoute: () => rootRouteImport,
 } as any)
+const StatusRoute = StatusRouteImport.update({
+  id: '/status',
+  path: '/status',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SupportRoute = SupportRouteImport.update({
   id: '/support',
   path: '/support',
@@ -73,6 +79,7 @@ export interface FileRoutesByFullPath {
   '/live': typeof LiveRoute
   '/programs': typeof ProgramsRoute
   '/services': typeof ServicesRoute
+  '/status': typeof StatusRoute
   '/support': typeof SupportRoute
   '/videos': typeof VideosRoute
 }
@@ -84,6 +91,7 @@ export interface FileRoutesByTo {
   '/live': typeof LiveRoute
   '/programs': typeof ProgramsRoute
   '/services': typeof ServicesRoute
+  '/status': typeof StatusRoute
   '/support': typeof SupportRoute
   '/videos': typeof VideosRoute
 }
@@ -96,6 +104,7 @@ export interface FileRoutesById {
   '/live': typeof LiveRoute
   '/programs': typeof ProgramsRoute
   '/services': typeof ServicesRoute
+  '/status': typeof StatusRoute
   '/support': typeof SupportRoute
   '/videos': typeof VideosRoute
 }
@@ -109,6 +118,7 @@ export interface FileRouteTypes {
     | '/live'
     | '/programs'
     | '/services'
+    | '/status'
     | '/support'
     | '/videos'
   fileRoutesByTo: FileRoutesByTo
@@ -120,6 +130,7 @@ export interface FileRouteTypes {
     | '/live'
     | '/programs'
     | '/services'
+    | '/status'
     | '/support'
     | '/videos'
   id:
@@ -131,6 +142,7 @@ export interface FileRouteTypes {
     | '/live'
     | '/programs'
     | '/services'
+    | '/status'
     | '/support'
     | '/videos'
   fileRoutesById: FileRoutesById
@@ -143,6 +155,7 @@ export interface RootRouteChildren {
   LiveRoute: typeof LiveRoute
   ProgramsRoute: typeof ProgramsRoute
   ServicesRoute: typeof ServicesRoute
+  StatusRoute: typeof StatusRoute
   SupportRoute: typeof SupportRoute
   VideosRoute: typeof VideosRoute
 }
@@ -198,6 +211,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/status': {
+      id: '/status'
+      path: '/status'
+      fullPath: '/status'
+      preLoaderRoute: typeof StatusRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/support': {
       id: '/support'
       path: '/support'
@@ -223,6 +243,7 @@ const rootRouteChildren: RootRouteChildren = {
   LiveRoute: LiveRoute,
   ProgramsRoute: ProgramsRoute,
   ServicesRoute: ServicesRoute,
+  StatusRoute: StatusRoute,
   SupportRoute: SupportRoute,
   VideosRoute: VideosRoute,
 }
