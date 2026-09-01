@@ -33,7 +33,7 @@ const empty: Form = {
   city: "",
   district: "",
   address: "",
-  type: programTypes[0],
+  type: programTypes[0] ?? "",
   date: "",
   time: "",
   duration: "",
