@@ -43,8 +43,8 @@ export type GalleryItem = {
 export const siteConfig = {
   brandName: "DPS DARSHAN",
   tagline: "संतों का संग • सत्संग का प्रसंग • भक्ति का प्रसारण",
-  /** Admin-uploaded logo. Place the official file at /images/dps-darshan-logo.png */
-  logo: "/images/dps-darshan-logo.png",
+  /** Admin-uploaded logo. Place the official file at /images/dps-darshan-logo.png and set this path. */
+  logo: null as string | null,
   phone1: "9755864233",
   phone2: "9826729461",
   whatsapp: "9755864233",
