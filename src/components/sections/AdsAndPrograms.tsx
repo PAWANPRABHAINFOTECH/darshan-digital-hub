@@ -26,8 +26,8 @@ function AdSlider() {
     return () => clearInterval(id);
   }, [paused, slides.length]);
 
-  if (slides.length === 0) return <EmptyState text={t("ads.empty")} />;
-  const slide = slides[index];
+  const slide = slides[index] ?? slides[0];
+  if (!slide) return <EmptyState text={t("ads.empty")} />;
 
   return (
     <div
