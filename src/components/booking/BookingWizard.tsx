@@ -114,7 +114,9 @@ export function BookingWizard() {
     return false;
   };
 
-  const Field = ({
+  // Render helper (not a JSX component) — using <Field/> would remount the
+  // input on every keystroke because a new component type is created each render.
+  const field = ({
     k,
     label,
     type = "text",
