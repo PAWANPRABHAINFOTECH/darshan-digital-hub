@@ -206,26 +206,26 @@ export function BookingWizard() {
       <div className="rounded-2xl border border-border bg-card p-6 shadow-soft">
         {step === 0 && (
           <div className="grid gap-4 sm:grid-cols-2">
-            <Field k="name" label={bt("booking.name")} />
-            <Field k="mobile" label={bt("booking.mobile")} type="tel" />
-            <Field k="whatsapp" label={bt("booking.whatsapp")} type="tel" />
-            <Field k="email" label={bt("booking.email")} type="email" />
-            <Field k="city" label={bt("booking.city")} />
-            <Field k="district" label={bt("booking.district")} />
-            <Field k="address" label={bt("booking.address")} textarea />
+            {field({ k: "name", label: bt("booking.name") })}
+            {field({ k: "mobile", label: bt("booking.mobile"), type: "tel" })}
+            {field({ k: "whatsapp", label: bt("booking.whatsapp"), type: "tel" })}
+            {field({ k: "email", label: bt("booking.email"), type: "email" })}
+            {field({ k: "city", label: bt("booking.city") })}
+            {field({ k: "district", label: bt("booking.district") })}
+            {field({ k: "address", label: bt("booking.address"), textarea: true })}
           </div>
         )}
 
         {step === 1 && (
           <div className="grid gap-4 sm:grid-cols-2">
-            <Field k="type" label={bt("booking.type")} options={programTypes} />
-            <Field k="date" label={bt("booking.date")} type="date" />
-            <Field k="time" label={bt("booking.time")} type="time" />
-            <Field k="duration" label={bt("booking.duration")} />
-            <Field k="venue" label={bt("booking.venue")} />
-            <Field k="audience" label={bt("booking.audience")} type="number" />
-            <Field k="special" label={bt("booking.special")} textarea />
-            <Field k="message" label={bt("booking.message")} textarea />
+            {field({ k: "type", label: bt("booking.type"), options: programTypes })}
+            {field({ k: "date", label: bt("booking.date"), type: "date" })}
+            {field({ k: "time", label: bt("booking.time"), type: "time" })}
+            {field({ k: "duration", label: bt("booking.duration") })}
+            {field({ k: "venue", label: bt("booking.venue") })}
+            {field({ k: "audience", label: bt("booking.audience"), type: "number" })}
+            {field({ k: "special", label: bt("booking.special"), textarea: true })}
+            {field({ k: "message", label: bt("booking.message"), textarea: true })}
           </div>
         )}
 
