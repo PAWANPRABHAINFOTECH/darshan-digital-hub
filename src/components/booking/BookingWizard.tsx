@@ -1,11 +1,9 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { z } from "zod";
 import { toast } from "sonner";
-import { Check, ChevronLeft, ChevronRight, UploadCloud } from "lucide-react";
-import { programTypes, siteConfig } from "@/config/site";
+import { Check, ChevronLeft, ChevronRight } from "lucide-react";
+import { programTypes } from "@/config/site";
 import { useI18n } from "@/i18n/LanguageProvider";
-import { PaymentModal } from "@/components/payment/PaymentModal";
-import { Receipt } from "@/components/booking/Receipt";
 
 type Form = {
   name: string;
