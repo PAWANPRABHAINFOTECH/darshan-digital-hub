@@ -230,42 +230,88 @@ export function BookingWizard() {
         )}
 
         {step === 2 && (
-          <div className="space-y-4">
-            <dl className="grid gap-3 sm:grid-cols-2">
-              {(
-                [
-                  ["booking.name", form.name],
-                  ["booking.mobile", form.mobile],
-                  ["booking.whatsapp", form.whatsapp],
-                  ["booking.email", form.email],
-                  ["booking.city", form.city],
-                  ["booking.district", form.district],
-                  ["booking.type", form.type],
-                  ["booking.date", form.date],
-                  ["booking.time", form.time],
-                  ["booking.duration", form.duration],
-                  ["booking.venue", form.venue],
-                  ["booking.audience", form.audience],
-                  ["booking.special", form.special],
-                  ["booking.message", form.message],
-                ] as const
-              )
-                .filter(([, v]) => v)
-                .map(([k, v]) => (
-                  <div key={k} className="rounded-lg border border-border bg-surface px-3 py-2">
-                    <dt className="text-[11px] text-muted-foreground">{bt(k)}</dt>
-                    <dd className="text-sm font-semibold break-words">{v}</dd>
+          <div className="space-y-6">
+            {!bookingId ? (
+              <>
+                {(
+                  [
+                    [
+                      "booking.customerDetails",
+                      [
+                        ["booking.name", form.name],
+                        ["booking.mobile", form.mobile],
+                        ["booking.whatsapp", form.whatsapp],
+                        ["booking.email", form.email],
+                        ["booking.city", form.city],
+                        ["booking.district", form.district],
+                        ["booking.address", form.address],
+                      ],
+                    ],
+                    [
+                      "booking.programDetails",
+                      [
+                        ["booking.type", form.type],
+                        ["booking.date", form.date],
+                        ["booking.time", form.time],
+                        ["booking.duration", form.duration],
+                        ["booking.venue", form.venue],
+                        ["booking.audience", form.audience],
+                        ["booking.special", form.special],
+                        ["booking.message", form.message],
+                      ],
+                    ],
+                  ] as const
+                ).map(([heading, rows]) => (
+                  <div key={heading}>
+                    <h3 className="mb-2 text-sm font-bold tracking-wide uppercase text-muted-foreground">
+                      {bt(heading)}
+                    </h3>
+                    <dl className="grid gap-3 sm:grid-cols-2">
+                      {rows.map(([k, v]) => (
+                        <div key={k} className="rounded-lg border border-border bg-surface px-3 py-2">
+                          <dt className="text-[11px] text-muted-foreground">{bt(k)}</dt>
+                          <dd className="text-sm font-semibold break-words">{v || "—"}</dd>
+                        </div>
+                      ))}
+                    </dl>
                   </div>
                 ))}
-            </dl>
-
-            {bookingId && (
-              <p className="rounded-lg bg-success/15 px-4 py-3 text-sm font-semibold text-success">
-                {bt("booking.success")} — {bt("booking.id")}: {bookingId}
-              </p>
+                <button
+                  type="button"
+                  onClick={() => setStep(0)}
+                  className="text-sm font-semibold text-primary underline-offset-4 hover:underline dark:text-gold"
+                >
+                  {bt("booking.edit")}
+                </button>
+              </>
+            ) : (
+              <div className="rounded-xl border border-success/40 bg-success/10 p-5">
+                <p className="text-base font-bold text-success">{bt("booking.success")}</p>
+                <dl className="mt-4 grid gap-3 sm:grid-cols-2">
+                  {(
+                    [
+                      ["booking.id", bookingId],
+                      ["booking.name", form.name],
+                      ["booking.type", form.type],
+                      ["booking.date", form.date],
+                      ["booking.venue", form.venue],
+                    ] as const
+                  ).map(([k, v]) => (
+                    <div key={k} className="rounded-lg border border-border bg-card px-3 py-2">
+                      <dt className="text-[11px] text-muted-foreground">{bt(k)}</dt>
+                      <dd className="text-sm font-semibold break-words">{v || "—"}</dd>
+                    </div>
+                  ))}
+                </dl>
+                <p className="mt-4 inline-flex rounded-full bg-warning/20 px-4 py-1.5 text-sm font-semibold text-warning">
+                  {bt("booking.reqStatus")}
+                </p>
+                <p className="mt-3 text-xs text-muted-foreground">{bt("booking.reqNote")}</p>
+              </div>
             )}
           </div>
         )}
+
 
         <div className="mt-6 flex items-center justify-between gap-3">
           <button
