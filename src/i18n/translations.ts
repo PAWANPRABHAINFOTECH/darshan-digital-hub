@@ -285,9 +285,16 @@ const en: Dict = {
   "booking.audience": "Expected Audience",
   "booking.special": "Special Requirements",
   "booking.message": "Additional Message",
-  "booking.submitBtn": "Submit Booking",
-  "booking.success": "Your booking has been recorded",
+  "booking.submitBtn": "Confirm",
+  "booking.success": "Your booking request has been received",
   "booking.id": "Booking ID",
+  "booking.review": "Final Review",
+  "booking.customerDetails": "Customer Details",
+  "booking.programDetails": "Program Details",
+  "booking.edit": "Edit details",
+  "booking.reqStatus": "Status: Booking Request Received",
+  "booking.reqNote":
+    "This is a booking request only. Our team will contact you shortly. Payment and final program confirmation are not done yet.",
 
   "pay.title": "Payment Options",
   "pay.token": "Token Payment",
