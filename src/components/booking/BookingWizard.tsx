@@ -65,30 +65,12 @@ const step2Schema = z.object({
 const genBookingId = () =>
   `DPS-2026-${Math.floor(100000 + Math.random() * 900000)}`;
 
-type PayType = "token" | "advance" | "full";
-type PayStatus = "none" | "pending" | "verification" | "approved" | "rejected";
-
 export function BookingWizard() {
   const { bookingLang, setBookingLang, bt } = useI18n();
   const [step, setStep] = useState(0);
   const [form, setForm] = useState<Form>(empty);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [bookingId, setBookingId] = useState<string | null>(null);
-  const [payType, setPayType] = useState<PayType>("token");
-  const [payOpen, setPayOpen] = useState(false);
-  const [payStatus, setPayStatus] = useState<PayStatus>("none");
-  const [proof, setProof] = useState({ txn: "", amount: "", method: "UPI", date: "", file: "" });
-
-  const amounts = siteConfig.payment;
-  const amount = useMemo(
-    () =>
-      payType === "token"
-        ? amounts.tokenAmount
-        : payType === "advance"
-          ? amounts.advanceAmount
-          : amounts.fullAmount,
-    [payType, amounts],
-  );
 
   const set = (k: keyof Form, v: string) => setForm((f) => ({ ...f, [k]: v }));
 
@@ -337,7 +319,6 @@ export function BookingWizard() {
                 onClick={() => {
                   const id = genBookingId();
                   setBookingId(id);
-                  setProof((p) => ({ ...p, amount: String(amount) }));
                   toast.success(`${bt("booking.success")} — ${id}`);
                 }}
                 className="rounded-full brand-gradient px-5 py-2 text-sm font-bold text-primary-foreground"
