@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/layout/SiteLayout";
 import { LiveDarshan } from "@/components/sections/LiveDarshan";
+import { LiveSchedule } from "@/components/sections/LiveSchedule";
 import { SocialLinks } from "@/components/sections/SocialLinks";
 import { FeaturedVideos } from "@/components/sections/FeaturedVideos";
 
@@ -27,6 +28,7 @@ function LivePage() {
   return (
     <SiteLayout>
       <LiveDarshan />
+      <LiveSchedule />
       <SocialLinks />
       <FeaturedVideos limit={8} />
     </SiteLayout>
