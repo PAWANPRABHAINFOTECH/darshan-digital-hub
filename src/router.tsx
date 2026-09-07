@@ -7,8 +7,9 @@ import { routeTree } from "./routeTree.gen";
 if (typeof window !== "undefined") {
   const RELOAD_KEY = "dps-chunk-reload";
   const recover = () => {
-    if (sessionStorage.getItem(RELOAD_KEY)) return;
-    sessionStorage.setItem(RELOAD_KEY, "1");
+    const last = Number(sessionStorage.getItem(RELOAD_KEY) ?? 0);
+    if (Date.now() - last < 30000) return;
+    sessionStorage.setItem(RELOAD_KEY, String(Date.now()));
     window.location.reload();
   };
   window.addEventListener("vite:preloadError", (event) => {
@@ -19,7 +20,6 @@ if (typeof window !== "undefined") {
     const message = String((event.reason as Error | undefined)?.message ?? "");
     if (message.includes("Failed to fetch dynamically imported module")) recover();
   });
-  window.addEventListener("load", () => sessionStorage.removeItem(RELOAD_KEY));
 }
 
 export const getRouter = () => {
