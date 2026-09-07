@@ -68,6 +68,10 @@ const hi = {
   "live.next": "अगला LIVE कार्यक्रम",
   "live.watch": "LIVE देखें",
   "live.program": "कार्यक्रम",
+  "live.scheduleTitle": "LIVE प्रसारण सूची",
+  "live.scheduleText": "आगामी कथा, भजन एवं सत्संग के LIVE प्रसारण का समय।",
+  "live.scheduleEmpty": "प्रसारण सूची जल्द जोड़ी जाएगी",
+  "live.scheduleDetails": "विवरण देखें",
 
   "ads.title": "विशेष आयोजन / विज्ञापन",
   "ads.empty": "व्यवस्थापक द्वारा विज्ञापन जल्द जोड़े जाएँगे",
@@ -258,6 +262,10 @@ const en: Dict = {
   "live.next": "Next LIVE Program",
   "live.watch": "Watch LIVE",
   "live.program": "Program",
+  "live.scheduleTitle": "Live Broadcast Schedule",
+  "live.scheduleText": "Timings for upcoming katha, bhajan and satsang live broadcasts.",
+  "live.scheduleEmpty": "The broadcast schedule will be added soon",
+  "live.scheduleDetails": "View details",
 
   "ads.title": "Special Events / Advertisements",
   "ads.empty": "Advertisements will be added by the admin soon",
