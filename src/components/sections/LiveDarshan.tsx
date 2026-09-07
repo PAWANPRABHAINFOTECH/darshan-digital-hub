@@ -1,17 +1,33 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { CalendarDays, Clock, Facebook, MapPin, PlayCircle, Youtube } from "lucide-react";
-import { liveConfig, siteConfig } from "@/config/site";
+import { siteConfig } from "@/config/site";
+import {
+  facebookEmbedFor,
+  formatBroadcastDate,
+  formatBroadcastTime,
+  youtubeEmbedFor,
+} from "@/config/broadcasts";
+import { useSchedule } from "@/hooks/use-schedule";
 import { useI18n } from "@/i18n/LanguageProvider";
 import { SectionHeading } from "@/components/layout/SiteLayout";
 
 export function LiveDarshan() {
-  const { t } = useI18n();
-  const [tab, setTab] = useState<"youtube" | "facebook">(liveConfig.platform);
+  const { t, lang } = useI18n();
+  const { live, next } = useSchedule();
+  const [tab, setTab] = useState<"youtube" | "facebook">("youtube");
   const [playing, setPlaying] = useState(false);
 
-  const ytEmbed = siteConfig.youtubeLiveEmbedUrl;
-  const fbEmbed = siteConfig.facebookLiveEmbedUrl;
+  const current = live ?? next;
+  const isLive = Boolean(live);
+
+  const ytEmbed = youtubeEmbedFor(live);
+  const fbEmbed = facebookEmbedFor(live);
+
+  // A newly-started broadcast should never keep an old iframe mounted.
+  useEffect(() => {
+    setPlaying(false);
+  }, [live?.id]);
 
   return (
     <section className="section-pad bg-surface" id="live">
@@ -57,16 +73,16 @@ export function LiveDarshan() {
 
         <div className="overflow-hidden rounded-2xl border border-gold/40 bg-card shadow-elegant">
           <div className="relative aspect-video w-full hero-surface">
-            {tab === "youtube" && liveConfig.isLive && ytEmbed && playing ? (
+            {tab === "youtube" && isLive && ytEmbed && playing ? (
               <iframe
-                src={`${ytEmbed}&autoplay=1`}
+                src={ytEmbed}
                 title={t("live.youtube")}
                 allow="accelerometer; autoplay; encrypted-media; picture-in-picture"
                 allowFullScreen
                 loading="lazy"
                 className="size-full"
               />
-            ) : tab === "facebook" && liveConfig.isLive && fbEmbed && playing ? (
+            ) : tab === "facebook" && isLive && fbEmbed && playing ? (
               <iframe
                 src={fbEmbed}
                 title={t("live.facebook")}
@@ -77,7 +93,7 @@ export function LiveDarshan() {
               />
             ) : (
               <div className="flex size-full flex-col items-center justify-center gap-4 p-6 text-center">
-                {liveConfig.isLive && (tab === "youtube" ? ytEmbed : fbEmbed) ? (
+                {isLive && (tab === "youtube" ? ytEmbed : fbEmbed) ? (
                   <button
                     onClick={() => setPlaying(true)}
                     className="inline-flex items-center gap-2 rounded-full bg-live px-6 py-3 text-sm font-bold text-live-foreground"
@@ -113,28 +129,29 @@ export function LiveDarshan() {
             <div>
               <p
                 className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-bold ${
-                  liveConfig.isLive
-                    ? "bg-live text-live-foreground"
-                    : "bg-secondary text-secondary-foreground"
+                  isLive ? "bg-live text-live-foreground" : "bg-secondary text-secondary-foreground"
                 }`}
               >
-                {liveConfig.isLive && (
+                {isLive && (
                   <span className="live-dot size-2 rounded-full bg-live-foreground" aria-hidden />
                 )}
-                {liveConfig.isLive ? t("live.now") : t("live.next")}
+                {isLive ? t("live.now") : t("live.next")}
               </p>
-              <h3 className="mt-2 text-lg">{liveConfig.programName}</h3>
-              <ul className="mt-2 flex flex-wrap gap-x-5 gap-y-1 text-sm text-muted-foreground">
-                <li className="inline-flex items-center gap-1.5">
-                  <MapPin className="size-4" aria-hidden /> {liveConfig.venue}
-                </li>
-                <li className="inline-flex items-center gap-1.5">
-                  <CalendarDays className="size-4" aria-hidden /> {liveConfig.date}
-                </li>
-                <li className="inline-flex items-center gap-1.5">
-                  <Clock className="size-4" aria-hidden /> {liveConfig.time}
-                </li>
-              </ul>
+              <h3 className="mt-2 text-lg">{current ? current.name : t("live.scheduleEmpty")}</h3>
+              {current && (
+                <ul className="mt-2 flex flex-wrap gap-x-5 gap-y-1 text-sm text-muted-foreground">
+                  <li className="inline-flex items-center gap-1.5">
+                    <MapPin className="size-4" aria-hidden /> {current.venue}
+                  </li>
+                  <li className="inline-flex items-center gap-1.5">
+                    <CalendarDays className="size-4" aria-hidden />{" "}
+                    {formatBroadcastDate(current.start, lang)}
+                  </li>
+                  <li className="inline-flex items-center gap-1.5">
+                    <Clock className="size-4" aria-hidden /> {formatBroadcastTime(current, lang)}
+                  </li>
+                </ul>
+              )}
             </div>
             <a
               href={tab === "facebook" ? siteConfig.facebookUrl : siteConfig.youtubeUrl}
