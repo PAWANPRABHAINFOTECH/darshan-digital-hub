@@ -3,6 +3,7 @@ import { z } from "zod";
 import { toast } from "sonner";
 import { Check, ChevronLeft, ChevronRight } from "lucide-react";
 import { programTypes } from "@/config/site";
+import { supabase } from "@/integrations/supabase/client";
 import { useI18n } from "@/i18n/LanguageProvider";
 
 type Form = {
@@ -71,8 +72,40 @@ export function BookingWizard() {
   const [form, setForm] = useState<Form>(empty);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [bookingId, setBookingId] = useState<string | null>(null);
+  const [saving, setSaving] = useState(false);
 
   const set = (k: keyof Form, v: string) => setForm((f) => ({ ...f, [k]: v }));
+
+  const submitBooking = async () => {
+    if (saving || bookingId) return;
+    setSaving(true);
+    const id = genBookingId();
+    const { error } = await supabase.from("booking_requests").insert({
+      request_id: id,
+      name: form.name.trim(),
+      mobile: form.mobile.trim(),
+      whatsapp: form.whatsapp.trim(),
+      email: form.email.trim(),
+      city: form.city.trim(),
+      district: form.district.trim(),
+      address: form.address.trim(),
+      program_type: form.type.trim(),
+      event_date: form.date.trim(),
+      start_time: form.time.trim(),
+      duration: form.duration.trim(),
+      venue: form.venue.trim(),
+      audience: form.audience.trim(),
+      special_requirements: form.special.trim(),
+      message: form.message.trim(),
+    });
+    setSaving(false);
+    if (error) {
+      toast.error(bt("booking.saveError"));
+      return;
+    }
+    setBookingId(id);
+    toast.success(`${bt("booking.success")} — ${id}`);
+  };
 
   const validate = (schema: z.ZodTypeAny) => {
     const parsed = schema.safeParse(form);
@@ -316,12 +349,9 @@ export function BookingWizard() {
             !bookingId && (
               <button
                 type="button"
-                onClick={() => {
-                  const id = genBookingId();
-                  setBookingId(id);
-                  toast.success(`${bt("booking.success")} — ${id}`);
-                }}
-                className="rounded-full brand-gradient px-5 py-2 text-sm font-bold text-primary-foreground"
+                disabled={saving}
+                onClick={() => void submitBooking()}
+                className="rounded-full brand-gradient px-5 py-2 text-sm font-bold text-primary-foreground disabled:opacity-60"
               >
                 {bt("booking.submitBtn")}
               </button>
