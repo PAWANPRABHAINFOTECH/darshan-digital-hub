@@ -109,6 +109,10 @@ export function Footer() {
 
       <div className="border-t border-border py-4 text-center text-xs text-muted-foreground">
         {t("footer.rights")}
+        <span className="mx-2">·</span>
+        <Link to="/auth" className="hover:text-primary dark:hover:text-gold">
+          टीम लॉगिन
+        </Link>
       </div>
     </footer>
   );
